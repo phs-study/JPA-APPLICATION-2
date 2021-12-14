@@ -17,7 +17,7 @@ public List<Order> ordersV1() {
 
 무한 루프 돌지 않기 위해 Order와 연관되어 있는 Member, OrderItem, Delivery의 orders에 @JsonIgnore를 걸어야 함. (양방향 걸리는 곳에는 다 @JsonIgnore을 걸어야 함.)
 
-![image1](.\image\image1.png)
+![image1](./image/image1.png)
 
 이번에는 다른 에러가 발생함. → Order를 가져왔는데 Member가 지연 로딩이므로 가짜 프록시 멤버 객체를 생성해서 넣어져 있음. 그래서 이 바이트 버디 인터셉터가 프록시 기술로 들어가 있는데, 근데 jackson library가 order를 가지고 member에 접근해서 데이터를 뽑아내려고 했는데 멤버가 순수한 자바 객체가 아니라 프록시 객체여서 발생하는 에러임.
 
@@ -38,7 +38,7 @@ public class JpashopApplication {
 
 이렇게 지연 로딩인 경우에는 Hibernate5Module을 스프링 빈으로 등록하면 jackson에게 아예 프록시는 데이터를 뽑지 말라고 명령을 줄 수 있다. (build.gradle에 라이브러리 등록)
 
-![image2](.\image\image2.png)
+![image2](./image/image2.png)
 
 지연 로딩이 된 객체는 null로 들어온다.
 
@@ -61,7 +61,7 @@ public class JpashopApplication {
 
 만약 다음과 같이 FORCE_LAZY_LOADING를 사용한다면 
 
-![image3](.\image\image3.png)
+![image3](./image/image3.png)
 
 즉시로딩으로 셋팅하기 때문에 값들을 가져올 수 있다.
 
@@ -92,7 +92,7 @@ publicList<Order> ordersV1() {
 }
 ```
 
-![image4](.\image\image4.png)
+![image4](./image/image4.png)
 
 이렇게 필요한 member, delivery만 강제 초기화 하고, orderItem은 숨길 수 있음.
 
@@ -118,7 +118,7 @@ public List<SimpleOrderDto> ordersV2() {
 }
 ```
 
-![image5](.\image\image5.png)
+![image5](./image/image5.png)
 
 아까보다 훨씬 깔끔한 api response를 만들어 낼 수 있다.
 
@@ -126,7 +126,7 @@ public List<SimpleOrderDto> ordersV2() {
 
 order, member, delivery, 총 3개의 테이블을 건드려야 함 → 결과적으로 3개의 테이블을 조회해야 함. 
 
-![image6](.\image\image6.png)
+![image6](./image/image6.png)
 
 Order를 조회하기 위해 → SQL 1번 날림 → 현재 주문수는 2개
 
@@ -170,7 +170,7 @@ public List<Order> findAllWithMemberDelivery() {
 
 fetch join을 해서 order를 조회할 때 member와 delivery를 다 join해서 한번에 가져온다. (지연로딩 무시하고 다 가져옴)
 
-![image7](.\image\image7.png)
+![image7](./image/image7.png)
 
 한방 쿼리로 주문, 멤버, 배송 정보 다 가져올 수 있다.
 
@@ -217,7 +217,7 @@ dto를 반환 할 수는 없기 때문에 jpql에 new operation을 꼭 써줘야
 
 여기서 jpa가 o를 반환할때 order reference값을 반환하는게 아니라 식별자 값을 반환하기 때문에 OrderSimpleQueryDto의 생성자 또한 Order가 아니라 필드들로 다 바꿔줘야 함. (Address 는 값 처럼 작용하기 때문에 파라미터로 넘겨줄 수 있음.)
 
-![image8](.\image\image8.png)
+![image8](./image/image8.png)
 
 이렇게 바로 dto로 가져오면 select할때 필요한 값만 가져다 쓸 수 있다.
 
@@ -252,7 +252,7 @@ join하거나 where절의 조건에서 index가 안먹히고 여기서 성능이
 
 이렇게 별도의 DTO를 만드는 성능 최적화용은 아예 패키지를 나눈다. (쿼리용 레포지토리를 새로 만든다)
 
-![image9](.\image\image9.png)
+![image9](./image/image9.png)
 
 OrderRepository는 순수한 엔티티 조회를 위한 내용만을 담고, 쿼리용 레포는 따로 패키지를 나눈다.
 
