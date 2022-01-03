@@ -70,3 +70,7 @@ API 개발 고급 - 컬렉션 조회 최적화
         - ToOne 관계는 조인해도 데이터 row 수가 증가하지 않는다.
         - ToMany(1:N) 관계는 조인하면 row 수가 증가한다.
         - row 수가 증가하지 않는 ToOne 관계는 조인으로 최적화 하기 쉬우므로 한번에 조회하고, ToMany 관계는 최적화 하기 어려우므로 findOrderItems() 같은 별도의 메서드로 조회한다.
+  - V5
+    - Query: 루트 1번, 컬렉션 1번
+    - ToOne 관계들을 먼저 조회하고, 여기서 얻은 식별자 orderId로 ToMany 관계인 OrderItem 을 한꺼번에 조회
+    - MAP을 사용해서 매칭 성능 향상(O(1))
