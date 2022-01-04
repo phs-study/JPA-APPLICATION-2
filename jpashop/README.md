@@ -100,3 +100,24 @@ API 개발 고급 - 컬렉션 조회 최적화
           2. 페이징 필요X 페치 조인 사용
     2. 엔티티 조회 방식으로 해결이 안되면 DTO 조회 방식 사용
     3. DTO 조회 방식으로 해결이 안되면 NativeSQL or 스프링 JdbcTemplat
+
+OSIV와 성능 최적화
+--------
+- Open Session In View : 하이버네이트
+- Open EntityManager In View: JPA (관례상 OSIV라 한다.)
+- <img alt="객체그래프탐색" src ="./doc/img/OSIV_ON.PNG" width ="400" height ="400"/>
+- Controller 혹은 View 등 영속성을 단위 쓰레드가 종료될때까지 유지하기 때문에 실시간 트래픽이 중요한 서비스에서는 가용 커넥션이 부족하다.
+- <img alt="객체그래프탐색" src ="./doc/img/OSIV_OFF.PNG" width ="400" height ="400"/>
+- 커넥션 리소스 낭비가 없는 대신, 지연 로딩을 트랜잭션 안에서만 처리해야 한다.
+
+커맨드와 쿼리 분리
+--------
+- OSIV를 끈 상태에서 Command와 Query를 분리하여 관리.
+    - Command : 핵심 비즈니스 로직(데이터 추가 및 수정 등)
+    - Query : 화면이나 API에 맞춘 서비스(주로 읽기 전용 트랜잭션 사용)
+    - Command와 Query는 라이프 사이클도 다르므로 분리가 가능하다! 
+    - Command는 Query에 비해 덜 자주 바뀐다.
+
+
+
+
