@@ -16,7 +16,7 @@ public class MemberServiceTest {
     @Autowired
     MemberService memberService;
     @Autowired
-    MemberRepository memberRepository;
+	MemberRepository memberRepository;
 
     @Test
     public void 회원가입() throws Exception {
@@ -26,7 +26,7 @@ public class MemberServiceTest {
         //When
         Long saveId = memberService.join(member);
         //Then
-        assertEquals(member, memberRepository.findOne(saveId));
+        assertEquals(member, memberRepository.findById(saveId).get());
     }
 
     @Test(expected = IllegalStateException.class)
