@@ -118,6 +118,8 @@ OSIV와 성능 최적화
     - Command와 Query는 라이프 사이클도 다르므로 분리가 가능하다! 
     - Command는 Query에 비해 덜 자주 바뀐다.
 
-
+QueryDSL 소개
+--------
+  - 오..매우 좋음...ㅎ
 
 
